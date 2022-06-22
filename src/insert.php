@@ -13,17 +13,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['content']) && !empty(
         if ($filename != '') {
             // Validate file extension
             $ext = pathinfo($filename, PATHINFO_EXTENSION);
-            if (!array_key_exists($ext, $allowed)) die("Error: Please select a valid file format.");
+            if (!array_key_exists($ext, $allowed)) die("Error: Please select a valid file format.Go to <a href='home.php'>Home</a>");
 
             // Validate file size - 10MB maximum
             $maxsize = 10 * 1024 * 1024;
-            if ($filesize > $maxsize) die("Error: File size is larger than the allowed limit.");
+            if ($filesize > $maxsize) die("Error: File size is larger than the allowed limit. Go to <a href='home.php'>Home</a>");
 
             // Validate type of the file
             if (in_array($filetype, $allowed)) {
                 // Check whether file exists before uploading it
                 if (file_exists("upload/" . $filename)) {
-                    echo $filename . " is already exists.";
+                    echo $filename . " is already exists. Go to <a href='home.php'>Home</a>";
                 } else {
                     if (move_uploaded_file($_FILES["anyfile"]["tmp_name"], "uploads/" . $filename)) {
                         $sql = "INSERT INTO images(file,type,size) VALUES('$filename','$filetype','$filesize')";
@@ -44,10 +44,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['content']) && !empty(
                     }
                 }
             } else {
-                echo "Error: There was a problem uploading your file. Please try again.";
+                echo "Error: There was a problem uploading your file. Please try again. Go to <a href='home.php'>Home</a>";
             }
         } else {
-            echo "Error: " . $_FILES["anyfile"]["error"];
+            echo "Error: Go to <a href='home.php'>Home</a> " . $_FILES["anyfile"]["error"];
         }
     } else {
         $id = $_SESSION['id'];
